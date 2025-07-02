@@ -8,11 +8,13 @@ import Task from "./pages/Task.jsx";
 import Inprogress from "./pages/Inprogress.jsx";
 import Completed from "./pages/Completed.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-
+import SignInPage from "./pages/SignInPage.jsx";
+import SignUpPage from "./pages/SignUpPage.jsx";
+import Home from "./pages/Home.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Home />,
     children: [
       {
         path: "/dashboard",
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
       {
         path: "/completed",
         element: <Completed />,
+      },
+      {
+        path: "/signin",
+        element: <SignInPage />,
+      },
+      {
+        path: "/signup",
+        element: <SignUpPage />,
       },
       {
         path: "*",
