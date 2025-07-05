@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
-
   return (
     <>
-      <header className="flex justify-between items-center px-8 py-4 shadow-sm">
+      <header className="flex justify-around items-center px-8 py-4 shadow-sm">
         <div className="flex items-center gap-3">
           <img
             src="./logo.svg"
@@ -24,7 +23,7 @@ const Home = () => {
           Login
         </button>
       </header>
-      <main className="flex flex-col justify-center items-center text-center min-h-[80vh] bg-gradient-to-br from-indigo-50 to-white">
+      <main className="flex flex-col justify-center items-center text-center min-h-[80vh]">
         <div className="font-bold text-4xl md:text-5xl lg:text-6xl mb-6">
           <span className="block mb-2">Welcome to</span>
           <span className="text-indigo-600">Task Management</span>

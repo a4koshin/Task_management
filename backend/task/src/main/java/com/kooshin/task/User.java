@@ -1,5 +1,7 @@
 package com.kooshin.task;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,17 +11,27 @@ import lombok.*;
 @Setter  
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "fullname", nullable = false, length = 100)
+    @Column(nullable = false, length = 100)
     private String fullname;
 
-    @Column(name = "email", nullable = false, length = 100)
+    @Column(nullable = false, length = 100, unique = true)
     private String email;
 
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+    
+    private String photo;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+   
 }
