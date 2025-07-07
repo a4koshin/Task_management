@@ -10,6 +10,9 @@ const SignInPage = () => {
           action=""
           className="flex flex-col justify-center gap-6 px-10 py-8 w-full"
         >
+          <Link to="/" className="text-indigo-600  hover:underline mb-2">
+            &larr;
+          </Link>
           <h1 className="text-3xl font-bold text-indigo-600 mb-2 text-center">
             Login
           </h1>
@@ -33,7 +36,7 @@ const SignInPage = () => {
               Forgot password?
             </a>
             <Link
-              href="/signup"
+              to="/signup"
               className="text-sm text-indigo-600 hover:underline"
             >
               Sign Up

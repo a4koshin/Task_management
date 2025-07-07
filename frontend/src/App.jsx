@@ -1,21 +1,58 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Aside from "./components/Aside";
-import Header from "./components/Header";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Signup from "./pages/SignUpPage";
+import Login from "./pages/SignInPage";
+import Dashboard from "./pages/Dashboard";
+import Task from "./pages/Task";
+import Complete from "./pages/Completed";
+import InProgress from "./pages/InProgress";
+import ProtectedLayout from "./layouts/ProtectedLayout";
+import PrivateRoute from "./routes/PrivateRoute";
+import Inprogress from "./pages/InProgress";
 
-const App = () => {
+function App() {
   return (
-    <div className="h-screen flex flex-col">
-      <Header />
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/" element={<Home />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
 
-      <div className="flex flex-1 overflow-hidden">
-        <Aside />
-        <main className="flex-1 overflow-y-auto p-6 bg-white">
-          <Outlet />
-        </main>
-      </div>
-    </div>
+      {/* Protected Routes */}
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/task"
+        element={
+          <PrivateRoute>
+            <Task />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/complete"
+        element={
+          <PrivateRoute>
+            <Complete />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/inprogress"
+        element={
+          <PrivateRoute>
+            <Inprogress />
+          </PrivateRoute>
+        }
+      />
+    </Routes>
   );
-};
+}
 
 export default App;

@@ -10,6 +10,9 @@ public class UserServices {
     public UserServices(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
+public boolean existsByEmail(String email) {
+    return userRepo.existsByEmail(email);
+}
 
     // Method to create a new user
     public User createUser(User user){
@@ -33,17 +36,19 @@ public class UserServices {
 
 
     // Method to update a user
-    public User updateUser(Integer userId,User userDetails){
-        User user = userRepo.findById(userId).orElse(null);
-        if (user != null) {
-            user.setFullname(userDetails.getFullname());
-            user.setEmail(userDetails.getEmail());
-            user.setPassword(userDetails.getPassword());
-            user.setRole(userDetails.getRole());
-            user.setPhoto(userDetails.getPhoto());     
+    public User updateUser(Integer userId, User userDetails){
+    User user = userRepo.findById(userId).orElse(null);
+    if (user != null) {
+        user.setFullname(userDetails.getFullname());
+        user.setEmail(userDetails.getEmail());
+        user.setPassword(userDetails.getPassword());
+        user.setRole(userDetails.getRole());
+        user.setPhoto(userDetails.getPhoto());
+        return userRepo.save(user);
     }
-        return userRepo.save(userDetails);
-    }
+    return null;
+}
+
 
 
 
