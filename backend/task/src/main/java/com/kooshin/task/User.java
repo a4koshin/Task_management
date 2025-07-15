@@ -40,7 +40,9 @@ public class User {
         this.createdAt = LocalDateTime.now();
 
         // Optional: set defaults if not provided
-        if (this.role == null) this.role = UserRole.USER;
-        if (this.photo == null || this.photo.isEmpty()) this.photo = "default.png";
+        if (this.role == null)
+            this.role = UserRole.USER;
+        if (this.photo == null || this.photo.isEmpty())
+            this.photo = "default.png";
     }
 }

@@ -6,9 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Task from "./pages/Task";
 import Complete from "./pages/Completed";
 import InProgress from "./pages/InProgress";
-import ProtectedLayout from "./layouts/ProtectedLayout";
 import PrivateRoute from "./routes/PrivateRoute";
-import Inprogress from "./pages/InProgress";
 
 function App() {
   return (
@@ -47,7 +45,7 @@ function App() {
         path="/inprogress"
         element={
           <PrivateRoute>
-            <Inprogress />
+            <InProgress />
           </PrivateRoute>
         }
       />

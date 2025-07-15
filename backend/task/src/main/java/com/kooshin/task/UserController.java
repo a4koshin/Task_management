@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/auth")
 @CrossOrigin(origins = "http://localhost:5173/")
 public class UserController {
 
@@ -14,7 +14,6 @@ public class UserController {
     public UserController(UserServices userServices) {
         this.userServices = userServices;
     }
-
 
     @PostMapping("/signup")
     public ResponseEntity<?> createUser(@RequestBody User user) {
@@ -29,7 +28,7 @@ public class UserController {
             // Save the user
             User savedUser = userServices.createUser(user);
             return ResponseEntity
-                    .status(201) 
+                    .status(201)
                     .body(savedUser);
 
         } catch (Exception e) {
@@ -39,13 +38,11 @@ public class UserController {
         }
     }
 
-  
     @GetMapping
     public List<User> getAllUsers() {
         return userServices.getAllUsers();
     }
 
-   
     @GetMapping("/{userId}")
     public User getUserById(@PathVariable Integer userId) {
         return userServices.getUserById(userId);
