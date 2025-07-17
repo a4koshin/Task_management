@@ -9,6 +9,7 @@ const AuthProvider = ({ children }) => {
   const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loadingAuth, setLoadingAuth] = useState(true); // new loading state
 
   const navigate = useNavigate();
 
@@ -24,7 +25,6 @@ const AuthProvider = ({ children }) => {
         setRole(userInfoParse.role || "");
         setIsAuthenticated(true);
       } catch (error) {
-        // If parsing fails, clear storage and reset state
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         setFullName("");
@@ -39,6 +39,7 @@ const AuthProvider = ({ children }) => {
       setRole("");
       setIsAuthenticated(false);
     }
+    setLoadingAuth(false); // done checking
   }, []);
 
   const logOut = () => {
@@ -63,6 +64,7 @@ const AuthProvider = ({ children }) => {
         isAuthenticated,
         setIsAuthenticated,
         logOut,
+        loadingAuth, // expose loading state
       }}
     >
       {children}

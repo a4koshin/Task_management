@@ -3,6 +3,7 @@ import signInImg from "../assets/img/signInImg.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../services/auth";
 import toast, { Toaster } from "react-hot-toast";
+import { useAuth } from "../context/AuthProvider"; // <-- import useAuth
 
 const SignInPage = () => {
   const [email, setEmail] = useState("");
@@ -10,22 +11,35 @@ const SignInPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Destructure setters from context
+  const {
+    setIsAuthenticated,
+    setFullName,
+    setEmail: setAuthEmail,
+    setRole,
+  } = useAuth();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const response = await login(email, password);
 
-      // Check for valid response with token and user object
       if (!response || !response.token || !response.user) {
         toast.error("Invalid email or password.");
         setLoading(false);
         return;
       }
 
-      // Save token and user object as JSON string in localStorage
+      // Save token and user object in localStorage
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(response.user));
+
+      // Update Auth context state immediately
+      setIsAuthenticated(true);
+      setFullName(response.user.fullname);
+      setAuthEmail(response.user.email);
+      setRole(response.user.role);
 
       toast.success("Login successful!");
 

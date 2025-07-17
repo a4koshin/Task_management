@@ -1,16 +1,23 @@
 import axiosInstance from "./axiosInstance";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
+// Login function
 export const login = async (email, password) => {
   try {
     const response = await axiosInstance.post("/auth/login", {
       email,
       password,
     });
+
+    console.log("Login response:", response.data);
+
     return response.data;
   } catch (err) {
     console.error("Login failed:", err);
+
     toast.error("Login failed. Please check your credentials.");
+
+    throw err;
   }
 };
 
@@ -22,9 +29,11 @@ export const signup = async ({ fullname, email, role, password }) => {
       role,
       password,
     });
-    return response.data;
+
+    return response.data; // { user: {...} }
   } catch (err) {
     console.error("Signup failed:", err);
     toast.error("Signup failed. Please try again.");
+    throw err;
   }
 };

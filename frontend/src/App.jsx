@@ -34,7 +34,7 @@ function App() {
         }
       />
       <Route
-        path="/complete"
+        path="/completed"
         element={
           <PrivateRoute>
             <Complete />

@@ -1,9 +1,9 @@
-package com.kooshin.task;
-
-import java.time.LocalDateTime;
+package com.kooshin.task.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,18 +28,19 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole role;
+    private UserRole role = UserRole.USER;
 
-    private String photo;
+    private String photo = "default.png";
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks;
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-
-        // Optional: set defaults if not provided
         if (this.role == null)
             this.role = UserRole.USER;
         if (this.photo == null || this.photo.isEmpty())

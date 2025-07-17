@@ -86,3 +86,18 @@ export const navigation = [
     path: "/completed",
   },
 ];
+
+export const dashboardHeader = [
+  {
+    id: 0,
+    text: "Task",
+  },
+  {
+    id: 1,
+    text: "Inprogess",
+  },
+  {
+    id: 2,
+    text: "Completed",
+  },
+];

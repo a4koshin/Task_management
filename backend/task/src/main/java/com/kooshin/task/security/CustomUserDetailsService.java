@@ -1,12 +1,9 @@
 package com.kooshin.task.security;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
-
-import com.kooshin.task.User;
-import com.kooshin.task.UserRepo;
+import com.kooshin.task.entity.User;
+import com.kooshin.task.repository.UserRepo;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -25,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getEmail())
                 .password(user.getPassword())
-                .roles(user.getRole().name())
+                .roles(user.getRole().name()) // automatically prepends "ROLE_"
                 .build();
     }
 }

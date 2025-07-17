@@ -3,7 +3,12 @@ import { useAuth } from "../context/AuthProvider";
 import ProtectedLayout from "../layouts/ProtectedLayout";
 
 const PrivateRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loadingAuth } = useAuth();
+
+  if (loadingAuth) {
+    // You can show a loader or blank page while checking auth
+    return <div>Loading...</div>;
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
