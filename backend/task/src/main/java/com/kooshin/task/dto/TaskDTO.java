@@ -1,21 +1,19 @@
 package com.kooshin.task.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-
 public class TaskDTO {
-    private Integer taskId;
+    private Long taskId;
     private String title;
     private String description;
     private String status;
-    private LocalDate dueDate;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
-
-    // Getters and setters
+    private LocalDateTime dueDate;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

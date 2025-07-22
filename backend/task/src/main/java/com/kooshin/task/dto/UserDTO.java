@@ -1,6 +1,6 @@
 package com.kooshin.task.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.*;
 
@@ -14,8 +14,7 @@ public class UserDTO {
     private String email;
     private String photo;
     private String role;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     private List<TaskDTO> tasks;
 
-    // Getters and setters
 }

@@ -1,9 +1,7 @@
-package com.kooshin.task.mapper;
+package com.kooshin.task.dto;
 
-import com.kooshin.task.dto.*;
 import com.kooshin.task.entity.*;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class DTOMapper {
@@ -14,6 +12,8 @@ public class DTOMapper {
         dto.setFullname(user.getFullname());
         dto.setEmail(user.getEmail());
         dto.setPhoto(user.getPhoto());
+        dto.setRole(user.getRole() != null ? user.getRole().name() : null);
+        dto.setCreatedAt(user.getCreatedAt());
 
         if (user.getTasks() != null) {
             dto.setTasks(user.getTasks().stream()
