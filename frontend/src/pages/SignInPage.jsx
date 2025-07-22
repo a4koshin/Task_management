@@ -3,7 +3,7 @@ import signInImg from "../assets/img/signInImg.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../services/auth";
 import toast, { Toaster } from "react-hot-toast";
-import { useAuth } from "../context/AuthProvider"; // <-- import useAuth
+import { useAuth } from "../context/AuthProvider";
 
 const SignInPage = () => {
   const [email, setEmail] = useState("");
@@ -11,7 +11,6 @@ const SignInPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Destructure setters from context
   const {
     setIsAuthenticated,
     setFullName,

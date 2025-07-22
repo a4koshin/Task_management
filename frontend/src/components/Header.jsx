@@ -1,41 +1,47 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthProvider";
 import Modal from "./Modal";
+import { createTask as createTaskAPI } from "../services/taskService";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const { fullname } = useAuth();
+
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
+  const [dueDate, setDueDate] = useState("");
   const [status, setStatus] = useState("");
 
   const handleAddTask = async () => {
-    const taskData = {
-      title: taskTitle,
-      description: taskDescription,
-      status: status || "todo",
-    };
+    if (!taskTitle || !status) {
+      alert("Please provide both title and status for the task.");
+      return;
+    }
 
     try {
-      const response = await fetch("http://localhost:8080/api/tasks", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(taskData),
-      });
+      const taskData = {
+        title: taskTitle,
+        description: taskDescription,
+        dueDate: dueDate,
+        status: status,
+      };
 
-      if (!response.ok) {
-        throw new Error("Failed to add task");
+      const response = await createTaskAPI(taskData);
+
+      if (response.ok || response.status === 201) {
+        toast.success("Task added successfully!");
+        setTaskTitle("");
+        setTaskDescription("");
+        setDueDate("");
+        setStatus("");
+        setShowTaskModal(false);
+      } else {
+        toast.error("Failed to add task.");
       }
-
-      console.log("Task added successfully");
-      setShowTaskModal(false);
-      setTaskTitle("");
-      setTaskDescription("");
-      setStatus("");
     } catch (error) {
       console.error("Error adding task:", error);
+      toast.error("An error occurred while adding the task.");
     }
   };
 
@@ -99,16 +105,17 @@ const Header = () => {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              strokeWidth={1.5}
+              strokeWidth="1.5"
               stroke="currentColor"
-              className="w-5 h-5"
+              className="size-6"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
               />
             </svg>
+
             <span>{today}</span>
           </div>
 
@@ -155,6 +162,13 @@ const Header = () => {
             placeholder="Description"
             value={taskDescription}
             onChange={(e) => setTaskDescription(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-2xl"
+          />
+          <input
+            type="datetime-local"
+            placeholder="Task title"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-2xl"
           />
           <select

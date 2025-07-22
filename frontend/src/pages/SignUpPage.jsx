@@ -48,7 +48,7 @@ const SignUpPage = () => {
     <>
       <Toaster position="top-center" reverseOrder={false} />
       <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <div className="grid grid-cols-2 gap-0 bg-white rounded-lg shadow-2xl overflow-hidden w-[800px]">
+        <div className="grid grid-cols-2 gap-0 bg-white rounded-lg border-1 border-gray-300 overflow-hidden w-[800px]">
           <div className="flex items-center justify-center h-full">
             <img
               src={signupimg}

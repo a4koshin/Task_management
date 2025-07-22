@@ -1,7 +1,6 @@
 import axiosInstance from "./axiosInstance";
 import toast from "react-hot-toast";
 
-// Login function
 export const login = async (email, password) => {
   try {
     const response = await axiosInstance.post("/auth/login", {
@@ -30,7 +29,7 @@ export const signup = async ({ fullname, email, role, password }) => {
       password,
     });
 
-    return response.data; // { user: {...} }
+    return response.data;
   } catch (err) {
     console.error("Signup failed:", err);
     toast.error("Signup failed. Please try again.");

@@ -5,7 +5,7 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <>
-      <header className="flex justify-around items-center px-8 py-4 shadow-sm">
+      <header className="flex justify-around items-center px-8 py-4 shadow">
         <div className="flex items-center gap-3">
           <img
             src="./logo.svg"

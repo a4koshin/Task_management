@@ -21,7 +21,7 @@ const Aside = ({ onLogoutClick }) => {
       </button>
 
       <aside
-        className={`bg-gray-50 w-40 h-screen flex flex-col fixed md:static top-0 left-0 z-40 transition-transform duration-300 ${
+        className={`bg-gray-50  w-40 h-screen flex flex-col fixed md:static top-0 left-0 z-40 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
