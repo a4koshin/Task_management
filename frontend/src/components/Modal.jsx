@@ -5,7 +5,7 @@ const Modal = ({ isVisible, title, onClose, children, footer }) => {
 
   return (
     <div className="fixed inset-0 bg-opacity-10 backdrop-blur flex justify-center items-center z-50">
-      <div className="bg-white rounded-xl p-6 w-[90%] max-w-md shadow-2xl">
+      <div className="bg-white rounded-xl p-6 w-[90%] max-w-md shadow-2xl border-2 border-gray-300">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-800">
             {title || "Modal Title"}

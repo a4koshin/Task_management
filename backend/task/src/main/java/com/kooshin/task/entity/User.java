@@ -2,6 +2,8 @@ package com.kooshin.task.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,12 +32,11 @@ public class User {
     @Column(nullable = false)
     private UserRole role = UserRole.USER;
 
-    private String photo = "default.png";
-
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Task> tasks;
 
     @PrePersist
@@ -43,7 +44,5 @@ public class User {
         this.createdAt = LocalDateTime.now();
         if (this.role == null)
             this.role = UserRole.USER;
-        if (this.photo == null || this.photo.isEmpty())
-            this.photo = "default.png";
     }
 }

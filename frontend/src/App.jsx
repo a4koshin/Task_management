@@ -5,8 +5,8 @@ import Login from "./pages/SignInPage";
 import Dashboard from "./pages/Dashboard";
 import Task from "./pages/Task";
 import Complete from "./pages/Completed";
-import InProgress from "./pages/InProgress";
 import PrivateRoute from "./routes/PrivateRoute";
+import Pending from "./pages/Pending";
 
 function App() {
   return (
@@ -45,7 +45,7 @@ function App() {
         path="/inprogress"
         element={
           <PrivateRoute>
-            <InProgress />
+            <Pending />
           </PrivateRoute>
         }
       />

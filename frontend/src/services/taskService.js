@@ -19,7 +19,7 @@ export const createTask = async (taskData) => {
   }
 };
 
-export const fetchTasks = async () => {
+export const getTasks = async () => {
   try {
     const response = await axiosInstance.get("/tasks");
     return response.data;

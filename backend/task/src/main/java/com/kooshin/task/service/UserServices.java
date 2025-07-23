@@ -28,19 +28,18 @@ public class UserServices {
         if (user.getRole() == null) {
             user.setRole(UserRole.USER);
         }
-        if (user.getPhoto() == null || user.getPhoto().isEmpty()) {
-            user.setPhoto("default.png");
-        }
         user.setPassword(passwordEncoder.encode(user.getPassword())); // encode password on signup
         return userRepo.save(user);
     }
 
     public List<User> getAllUsers() {
-        return userRepo.findAll();
+        // Use eager fetch to load tasks and prevent lazy loading issues
+        return userRepo.findAllWithTasks();
     }
 
     public User getUserById(Integer userId) {
-        return userRepo.findById(userId)
+        // Use eager fetch to load tasks with user
+        return userRepo.findByIdWithTasks(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
     }
 
@@ -55,10 +54,6 @@ public class UserServices {
 
             if (userDetails.getRole() != null) {
                 user.setRole(userDetails.getRole());
-            }
-
-            if (userDetails.getPhoto() != null && !userDetails.getPhoto().isEmpty()) {
-                user.setPhoto(userDetails.getPhoto());
             }
 
             return userRepo.save(user);

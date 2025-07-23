@@ -1,60 +1,61 @@
-import React from "react";
-import { tasks } from "../constants/data";
-
-const TaskCard = ({ task }) => (
-  <div className="bg-white p-4 rounded-xl shadow-md space-y-1">
-    <h2 className="font-semibold text-lg">{task.title}</h2>
-    <p className="text-sm text-gray-700">{task.description}</p>
-    <div className="text-xs text-gray-500 flex justify-between mt-2">
-      <span>👤 {task.user}</span>
-      <span>🏷️ {task.tag}</span>
-      <span>⚡ {task.priority}</span>
-    </div>
-    <p className="text-[10px] text-right text-gray-400">
-      {new Date(task.timestamp).toLocaleString()}
-    </p>
-  </div>
-);
-
+import React, { useEffect, useState } from "react";
+import TaskCard from "../components/TaskCard";
+import { getTasks } from "../services/taskService";
+import Header from "../components/Header";
 const Dashboard = () => {
+  const [tasks, setTasks] = useState([]);
+
+  const fetchTaskFromDB = async () => {
+    const response = await getTasks();
+    setTasks(response);
+  };
+
+  useEffect(() => {
+    fetchTaskFromDB();
+  }, []);
+
   const groupedTasks = {
-    "To do": tasks.filter((task) => task.status === "To do"),
-    "In Progress": tasks.filter((task) => task.status === "In Progress"),
-    Complete: tasks.filter((task) => task.status === "Complete"),
+    "To do": tasks.filter((task) => task.status.toLowerCase() === "todo"),
+    "In Progress": tasks.filter(
+      (task) => task.status.toLowerCase() === "pending"
+    ),
+    Complete: tasks.filter((task) => task.status.toLowerCase() === "completed"),
   };
 
   return (
-    <main className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
-      {/* To Do Column */}
-      <div>
-        <h1 className="font-semibold text-2xl mb-4">To do</h1>
-        <div className="space-y-4">
-          {groupedTasks["To do"].map((task) => (
-            <TaskCard key={task.id} task={task} />
-          ))}
+    <>
+      <main className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+        {/* To Do Column */}
+        <div>
+          <h1 className="font-semibold text-2xl mb-4">To do</h1>
+          <div className="space-y-4">
+            {groupedTasks["To do"].map((task) => (
+              <TaskCard key={task.taskId} task={task} />
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* In Progress Column */}
-      <div>
-        <h1 className="font-semibold text-2xl mb-4">In Progress</h1>
-        <div className="space-y-4">
-          {groupedTasks["In Progress"].map((task) => (
-            <TaskCard key={task.id} task={task} />
-          ))}
+        {/* In Progress Column */}
+        <div>
+          <h1 className="font-semibold text-2xl mb-4">Pending</h1>
+          <div className="space-y-4">
+            {groupedTasks["In Progress"].map((task) => (
+              <TaskCard key={task.taskId} task={task} />
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Complete Column */}
-      <div>
-        <h1 className="font-semibold text-2xl mb-4">Completed</h1>
-        <div className="space-y-4">
-          {groupedTasks["Complete"].map((task) => (
-            <TaskCard key={task.id} task={task} />
-          ))}
+        {/* Complete Column */}
+        <div>
+          <h1 className="font-semibold text-2xl mb-4">Completed</h1>
+          <div className="space-y-4">
+            {groupedTasks["Complete"].map((task) => (
+              <TaskCard key={task.taskId} task={task} />
+            ))}
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 };
 

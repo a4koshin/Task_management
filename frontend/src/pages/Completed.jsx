@@ -1,32 +1,31 @@
-import React from "react";
-import { tasks } from "../constants/data";
-
-const TaskCard = ({ task }) => (
-  <div className="bg-white p-4 rounded-xl shadow-sm space-y-1">
-    <h2 className="font-semibold">{task.title}</h2>
-    <p className="text-sm text-gray-600">{task.description}</p>
-    <div className="text-xs text-gray-500 flex flex-wrap gap-2">
-      <span>🧑 {task.user}</span>
-      <span>🏷️ {task.tag}</span>
-      <span>⚡ {task.priority}</span>
-    </div>
-    <p className="text-[10px] text-right text-gray-400">
-      {new Date(task.timestamp).toLocaleString()}
-    </p>
-  </div>
-);
+import React, { useState, useEffect } from "react";
+import { getTasks } from "../services/taskService";
+import TaskCard from "../components/TaskCard";
+import Heading from "../components/Heading";
 
 const Completed = () => {
-  const completedTasks = tasks.filter((task) => task.status === "Complete");
+  const [Completed, setCompleted] = useState([]);
+
+  const fetchTaskFromDB = async () => {
+    const response = await getTasks();
+    setCompleted(response);
+  };
+
+  useEffect(() => {
+    fetchTaskFromDB();
+  }, []);
+
+  const CompletedTasks = Completed.filter((task) => task.status === "pending");
 
   return (
-    <main className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {completedTasks.length ? (
-        completedTasks.map((task) => <TaskCard key={task.id} task={task} />)
-      ) : (
-        <p className="text-gray-500 italic">No completed tasks.</p>
-      )}
-    </main>
+    <>
+      <Heading heading={"Completed page"} />
+      <div className="flex  items-center gap-8 flex-wrap">
+        {CompletedTasks.map((task) => (
+          <TaskCard key={task.taskId} task={task} />
+        ))}
+      </div>
+    </>
   );
 };
 

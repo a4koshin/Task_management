@@ -4,7 +4,7 @@ import Modal from "./Modal";
 import { createTask as createTaskAPI } from "../services/taskService";
 import toast from "react-hot-toast";
 
-const Header = () => {
+const Header = ({ oneTaskAdded }) => {
   const { fullname } = useAuth();
 
   const [showTaskModal, setShowTaskModal] = useState(false);
@@ -36,6 +36,7 @@ const Header = () => {
         setDueDate("");
         setStatus("");
         setShowTaskModal(false);
+        oneTaskAdded();
       } else {
         toast.error("Failed to add task.");
       }
@@ -77,28 +78,6 @@ const Header = () => {
           <span>New task</span>
         </button>
 
-        <div className="relative w-full max-w-xs">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-            />
-          </svg>
-          <input
-            type="search"
-            placeholder="Search"
-            className="w-full bg-gray-100 pl-10 pr-4 py-2 rounded-full text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition"
-          />
-        </div>
-
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2 text-indigo-600 font-medium text-sm">
             <svg
@@ -124,7 +103,7 @@ const Header = () => {
           </span>
 
           <div className="w-10 h-10 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-sm uppercase">
-            {fullname?.charAt(0)}
+            {fullname.charAt(0)}
           </div>
         </div>
       </div>
