@@ -55,7 +55,7 @@ const Header = ({ oneTaskAdded }) => {
   });
 
   return (
-    <header className="p-4">
+    <header className="p-4 bg-gray-50">
       <div className="flex items-center justify-between w-full">
         <button
           onClick={openModal}

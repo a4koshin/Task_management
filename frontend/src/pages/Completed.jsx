@@ -15,7 +15,9 @@ const Completed = () => {
     fetchTaskFromDB();
   }, []);
 
-  const CompletedTasks = Completed.filter((task) => task.status === "pending");
+  const CompletedTasks = Completed.filter(
+    (task) => task.status === "completed"
+  );
 
   return (
     <>

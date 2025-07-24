@@ -21,13 +21,17 @@ const Aside = ({ onLogoutClick }) => {
       </button>
 
       <aside
-        className={`bg-gray-50  w-40 h-screen flex flex-col fixed md:static top-0 left-0 z-40 transition-transform duration-300 ${
+        className={`bg-indigo-700  w-40 h-screen flex flex-col fixed  md:static top-0 left-0 z-40 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
-        <div className="flex flex-col justify-center items-center bg-gray-100 p-4 w-full rounded-md">
-          <img src="./logo.svg" alt="logo" className="w-10 h-10 mb-2" />
-          <h3 className="text-xl font-semibold text-indigo-600">FocusFlow</h3>
+        <div className="flex flex-col justify-center items-center bg-indigo-700 p-4 w-full rounded-md">
+          <img
+            src="./logo.svg"
+            alt="logo"
+            className="w-10 h-10 mb-2 invert brightness-0"
+          />
+          <h3 className="text-xl font-semibold text-gray-100">FocusFlow</h3>
         </div>
 
         <div className="flex flex-col justify-center items-center text-base mt-8 w-full">
@@ -38,10 +42,10 @@ const Aside = ({ onLogoutClick }) => {
                 navigate(btn.path);
                 setIsOpen(false);
               }}
-              className={`font-medium text-base flex items-center gap-4 h-10 w-full px-4 transition active:bg-white ${
+              className={`font-medium text-base flex items-center gap-4 h-10 w-full px-4 rounded-r-2xl transition active:bg-white ${
                 location.pathname === btn.path
-                  ? "bg-indigo-600 text-white"
-                  : "text-indigo-600 hover:bg-gray-100 hover:text-indigo-600"
+                  ? "bg-gray-100 text-indigo-700"
+                  : "text-gray-100 hover:bg-indigo-700 hover:text-gray-200"
               }`}
             >
               <span className="w-5 h-5">{btn.icon}</span>
@@ -53,7 +57,7 @@ const Aside = ({ onLogoutClick }) => {
         <div className="mt-auto w-full">
           <button
             onClick={onLogoutClick}
-            className="font-medium text-base flex items-center gap-3 h-12 w-full rounded-md px-4 transition active:bg-white text-indigo-600 hover:bg-gray-100 hover:text-indigo-600"
+            className="font-medium text-base flex items-center gap-3 h-12 w-full rounded-r-2xl px-4 transition active:bg-white text-gray-100 hover:bg-gray-100 hover:text-indigo-600"
           >
             <span className="w-5 h-5">
               <svg
