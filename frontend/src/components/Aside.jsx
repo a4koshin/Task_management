@@ -21,7 +21,7 @@ const Aside = ({ onLogoutClick }) => {
       </button>
 
       <aside
-        className={`bg-indigo-700  w-40 h-screen flex flex-col fixed  md:static top-0 left-0 z-40 transition-transform duration-300 ${
+        className={`bg-indigo-700  w-60 h-screen flex flex-col fixed  md:static top-0 left-0 z-40 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
@@ -34,7 +34,7 @@ const Aside = ({ onLogoutClick }) => {
           <h3 className="text-xl font-semibold text-gray-100">FocusFlow</h3>
         </div>
 
-        <div className="flex flex-col justify-center items-center text-base mt-8 w-full">
+        <div className="flex flex-col justify-center items-center text-4xl mt-8 w-full">
           {navigation.map((btn) => (
             <button
               key={btn.id}

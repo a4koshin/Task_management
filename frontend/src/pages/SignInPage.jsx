@@ -11,18 +11,13 @@ const SignInPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const {
-    setIsAuthenticated,
-    setFullName,
-    setEmail: setAuthEmail,
-    setRole,
-  } = useAuth();
+  const { setIsAuthenticated, setName, setEmail: setAuthEmail } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await login(email, password);
+      const response = await login(email.trim(), password);
 
       if (!response || !response.token || !response.user) {
         toast.error("Invalid email or password.");
@@ -30,15 +25,12 @@ const SignInPage = () => {
         return;
       }
 
-      // Save token and user object in localStorage
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(response.user));
 
-      // Update Auth context state immediately
       setIsAuthenticated(true);
-      setFullName(response.user.fullname);
+      setName(response.user.name); // updated fullname -> name
       setAuthEmail(response.user.email);
-      setRole(response.user.role);
 
       toast.success("Login successful!");
 

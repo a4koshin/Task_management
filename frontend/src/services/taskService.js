@@ -32,9 +32,9 @@ export const getTasks = async () => {
   }
 };
 
-export const updateTask = async (taskId, updatedData) => {
+export const updateTask = async (_id, updatedData) => {
   try {
-    const response = await axiosInstance.put(`/tasks/${taskId}`, updatedData);
+    const response = await axiosInstance.put(`/tasks/${_id}`, updatedData);
     toast.success("Task updated successfully!");
     return response.data;
   } catch (error) {
@@ -46,9 +46,9 @@ export const updateTask = async (taskId, updatedData) => {
   }
 };
 
-export const deleteTask = async (taskId) => {
+export const deleteTask = async (_id) => {
   try {
-    await axiosInstance.delete(`/tasks/${taskId}`);
+    await axiosInstance.delete(`/tasks/${_id}`);
     toast.success("Task deleted successfully!");
   } catch (error) {
     console.error("Failed to delete task:", error);

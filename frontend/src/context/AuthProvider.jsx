@@ -5,11 +5,10 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
-  const [fullname, setFullName] = useState("");
-  const [role, setRole] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loadingAuth, setLoadingAuth] = useState(true); // new loading state
+  const [loadingAuth, setLoadingAuth] = useState(true);
 
   const navigate = useNavigate();
 
@@ -20,34 +19,30 @@ const AuthProvider = ({ children }) => {
     if (storedToken && storedUser) {
       try {
         const userInfoParse = JSON.parse(storedUser);
-        setFullName(userInfoParse.fullname || "");
+        setName(userInfoParse.name || "");
         setEmail(userInfoParse.email || "");
-        setRole(userInfoParse.role || "");
         setIsAuthenticated(true);
       } catch (error) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        setFullName("");
+        setName("");
         setEmail("");
-        setRole("");
         setIsAuthenticated(false);
         console.error("Failed to parse user info from localStorage:", error);
       }
     } else {
-      setFullName("");
+      setName("");
       setEmail("");
-      setRole("");
       setIsAuthenticated(false);
     }
-    setLoadingAuth(false); // done checking
+    setLoadingAuth(false);
   }, []);
 
   const logOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    setFullName("");
+    setName("");
     setEmail("");
-    setRole("");
     setIsAuthenticated(false);
     navigate("/login");
   };
@@ -55,16 +50,14 @@ const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        fullname,
-        setFullName,
-        role,
-        setRole,
+        name,
+        setName,
         email,
         setEmail,
         isAuthenticated,
         setIsAuthenticated,
         logOut,
-        loadingAuth, // expose loading state
+        loadingAuth,
       }}
     >
       {children}

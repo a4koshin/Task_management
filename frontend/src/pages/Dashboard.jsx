@@ -47,7 +47,7 @@ const Dashboard = () => {
           : null,
       };
 
-      await updateTask(selectedTask.taskId, updatedData);
+      await updateTask(selectedTask._id, updatedData);
       await fetchTaskFromDB();
       closeCard();
     } catch (error) {
@@ -57,7 +57,7 @@ const Dashboard = () => {
 
   const deleteTaskFromDB = async () => {
     try {
-      await deleteTask(selectedTask.taskId);
+      await deleteTask(selectedTask._id);
       await fetchTaskFromDB();
       closeCard();
     } catch (error) {
@@ -106,14 +106,6 @@ const Dashboard = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-2xl"
             />
 
-            <input
-              type="datetime-local"
-              name="dueDate"
-              value={selectedTask.dueDate || ""}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-2xl"
-            />
-
             <select
               name="status"
               value={selectedTask.status}
@@ -124,6 +116,18 @@ const Dashboard = () => {
               <option value="todo">Todo</option>
               <option value="pending">Pending</option>
               <option value="completed">Completed</option>
+            </select>
+
+            <select
+              name="priority"
+              value={selectedTask.priority}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-2xl"
+            >
+              <option value="">Choose priority</option>
+              <option value="low">low</option>
+              <option value="medium">medium</option>
+              <option value="high">high</option>
             </select>
 
             <div className="flex justify-between pt-2">
@@ -156,7 +160,7 @@ const Dashboard = () => {
           <h1 className="font-semibold text-2xl mb-4">To do</h1>
           <div className="space-y-4">
             {groupedTasks["To do"].map((task) => (
-              <TaskCard key={task.taskId} task={task} onCardOpen={openCard} />
+              <TaskCard key={task._id} task={task} onCardOpen={openCard} />
             ))}
           </div>
         </div>
@@ -166,7 +170,7 @@ const Dashboard = () => {
           <h1 className="font-semibold text-2xl mb-4">Pending</h1>
           <div className="space-y-4">
             {groupedTasks["In Progress"].map((task) => (
-              <TaskCard key={task.taskId} task={task} onCardOpen={openCard} />
+              <TaskCard key={task._id} task={task} onCardOpen={openCard} />
             ))}
           </div>
         </div>
@@ -176,7 +180,7 @@ const Dashboard = () => {
           <h1 className="font-semibold text-2xl mb-4">Completed</h1>
           <div className="space-y-4">
             {groupedTasks["Complete"].map((task) => (
-              <TaskCard key={task.taskId} task={task} onCardOpen={openCard} />
+              <TaskCard key={task._id} task={task} onCardOpen={openCard} />
             ))}
           </div>
         </div>

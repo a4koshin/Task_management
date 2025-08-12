@@ -5,12 +5,12 @@ import { createTask as createTaskAPI } from "../services/taskService";
 import toast from "react-hot-toast";
 
 const Header = ({ oneTaskAdded }) => {
-  const { fullname } = useAuth();
+  const { name } = useAuth();
 
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
-  const [dueDate, setDueDate] = useState("");
+  const [priority, setPriority] = useState("");
   const [status, setStatus] = useState("");
 
   const handleAddTask = async () => {
@@ -23,8 +23,8 @@ const Header = ({ oneTaskAdded }) => {
       const taskData = {
         title: taskTitle,
         description: taskDescription,
-        dueDate: dueDate,
         status: status,
+        priority: priority,
       };
 
       const response = await createTaskAPI(taskData);
@@ -33,7 +33,6 @@ const Header = ({ oneTaskAdded }) => {
         toast.success("Task added successfully!");
         setTaskTitle("");
         setTaskDescription("");
-        setDueDate("");
         setStatus("");
         setShowTaskModal(false);
         oneTaskAdded();
@@ -47,12 +46,6 @@ const Header = ({ oneTaskAdded }) => {
   };
 
   const openModal = () => setShowTaskModal(true);
-
-  const today = new Date().toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
 
   return (
     <header className="p-4 bg-gray-50">
@@ -99,11 +92,11 @@ const Header = ({ oneTaskAdded }) => {
           </div>
 
           <span className="text-gray-700 text-sm font-medium">
-            Welcome, {fullname}
+            Welcome, {name}
           </span>
 
           <div className="w-10 h-10 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-sm uppercase">
-            {fullname.charAt(0)}
+            {name.charAt(0)}
           </div>
         </div>
       </div>
@@ -143,13 +136,7 @@ const Header = ({ oneTaskAdded }) => {
             onChange={(e) => setTaskDescription(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-2xl"
           />
-          <input
-            type="datetime-local"
-            placeholder="Task title"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-2xl"
-          />
+
           <select
             name="status"
             id="status"
@@ -161,6 +148,18 @@ const Header = ({ oneTaskAdded }) => {
             <option value="todo">Todo</option>
             <option value="pending">Pending</option>
             <option value="completed">Completed</option>
+          </select>
+          <select
+            name="priority"
+            id="priority"
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-2xl"
+          >
+            <option value="">Choose priority</option>
+            <option value="low">low</option>
+            <option value="medium">medium</option>
+            <option value="high">high</option>
           </select>
         </div>
       </Modal>

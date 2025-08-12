@@ -12,9 +12,8 @@ const TaskCard = ({ task, onCardOpen }) => {
       <h2 className="font-semibold text-lg">{task.title}</h2>
       <p className="text-sm text-gray-700">{task.description}</p>
       <div className="text-xs text-gray-500 flex justify-between mt-2">
-        <span>
-          {task.dueDate ? new Date(task.dueDate).toLocaleString() : ""}
-        </span>
+        <span>{task.priority}</span>
+        <span>{task.status}</span>
       </div>
       <p className="text-[10px] text-right text-gray-400">{fullname}</p>
     </div>
