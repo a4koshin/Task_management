@@ -31,7 +31,7 @@ export const signup = async ({ name, email, password }) => {
     });
 
     toast.success("Signup successful");
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (err) {
     console.error("Signup failed:", err);

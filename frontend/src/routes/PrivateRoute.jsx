@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
-import ProtectedLayout from "../layouts/ProtectedLayout";
+import ProtectedLayout from "../layouts/Layout";
 
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated, loadingAuth } = useAuth();

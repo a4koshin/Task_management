@@ -1,170 +1,59 @@
 import React, { useState } from "react";
+import { CalendarDays, LogOut, Search, User } from "lucide-react";
 import { useAuth } from "../context/AuthProvider";
-import Modal from "./Modal";
-import { createTask as createTaskAPI } from "../services/taskService";
-import toast from "react-hot-toast";
 
-const Header = ({ oneTaskAdded }) => {
-  const { name } = useAuth();
-
-  const [showTaskModal, setShowTaskModal] = useState(false);
-  const [taskTitle, setTaskTitle] = useState("");
-  const [taskDescription, setTaskDescription] = useState("");
-  const [priority, setPriority] = useState("");
-  const [status, setStatus] = useState("");
-
-  const handleAddTask = async () => {
-    if (!taskTitle || !status) {
-      alert("Please provide both title and status for the task.");
-      return;
-    }
-
-    try {
-      const taskData = {
-        title: taskTitle,
-        description: taskDescription,
-        status: status,
-        priority: priority,
-      };
-
-      const response = await createTaskAPI(taskData);
-
-      if (response.ok || response.status === 201) {
-        toast.success("Task added successfully!");
-        setTaskTitle("");
-        setTaskDescription("");
-        setStatus("");
-        setShowTaskModal(false);
-        oneTaskAdded();
-      } else {
-        toast.error("Failed to add task.");
-      }
-    } catch (error) {
-      console.error("Error adding task:", error);
-      toast.error("An error occurred while adding the task.");
-    }
-  };
-
-  const openModal = () => setShowTaskModal(true);
-
+const Header = () => {
+  const { name, logOut } = useAuth();
+  const [showMenu, setShowMenu] = useState(false);
   return (
-    <header className="p-4 bg-gray-50">
-      <div className="flex items-center justify-between w-full">
-        <button
-          onClick={openModal}
-          className="px-4 py-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 flex items-center gap-2"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-4 h-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>
-          <span>New task</span>
-        </button>
-
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2 text-indigo-600 font-medium text-sm">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
-              />
-            </svg>
-
-            <span>{today}</span>
-          </div>
-
-          <span className="text-gray-700 text-sm font-medium">
-            Welcome, {name}
-          </span>
-
-          <div className="w-10 h-10 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-sm uppercase">
-            {name.charAt(0)}
-          </div>
-        </div>
+    <header className="bg-gray-50 shadow-sm px-6 py-4 flex justify-around items-center">
+      <div className="flex flex-col">
+        <h1 className="text-2xl font-semibold text-gray-800">Dashboard</h1>
+        <p className="text-sm text-gray-500">Welcome back to your dashboard</p>
       </div>
 
-      <Modal
-        isVisible={showTaskModal}
-        title="Add New Task"
-        onClose={() => setShowTaskModal(false)}
-        footer={
-          <>
-            <button
-              onClick={() => setShowTaskModal(false)}
-              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-sm"
+      {/* Search Bar */}
+      <div className="relative w-1/3">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <input
+          type="search"
+          placeholder="Search tasks..."
+          className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm text-gray-700"
+        />
+      </div>
+      {/* User Section */}
+      <div className="flex items-center gap-6 relative">
+        {/* Calendar */}
+        <button className="text-gray-600 hover:text-indigo-600 transition">
+          <CalendarDays strokeWidth={1.75} className="w-6 h-6" />
+        </button>
+        {/* Greeting */}
+        <span className="text-gray-700 font-medium">👋🏽 Hello, {name}</span>
+        {/* Avatar with Dropdown */}
+        <div className="relative" onMouseEnter={() => setShowMenu(true)}>
+          <div className="rounded-full overflow-hidden w-10 h-10 border-2 border-indigo-600 bg-indigo-600 flex items-center justify-center text-white font-semibold cursor-pointer hover:opacity-90 transition">
+            {name.charAt(0).toUpperCase()}
+          </div>
+          {/* Dropdown Menu */}
+          {showMenu && (
+            <div
+              onMouseLeave={() => setShowMenu(false)}
+              className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50"
             >
-              Cancel
-            </button>
-            <button
-              onClick={handleAddTask}
-              className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm"
-            >
-              Add Task
-            </button>
-          </>
-        }
-      >
-        <div className="flex flex-col gap-4">
-          <input
-            type="text"
-            placeholder="Task title"
-            value={taskTitle}
-            onChange={(e) => setTaskTitle(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-2xl"
-          />
-          <textarea
-            placeholder="Description"
-            value={taskDescription}
-            onChange={(e) => setTaskDescription(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-2xl"
-          />
-
-          <select
-            name="status"
-            id="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-2xl"
-          >
-            <option value="">Choose Status</option>
-            <option value="todo">Todo</option>
-            <option value="pending">Pending</option>
-            <option value="completed">Completed</option>
-          </select>
-          <select
-            name="priority"
-            id="priority"
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-2xl"
-          >
-            <option value="">Choose priority</option>
-            <option value="low">low</option>
-            <option value="medium">medium</option>
-            <option value="high">high</option>
-          </select>
+              <button className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 transition">
+                <User className="w-5 h-5 text-indigo-600" /> Profile
+              </button>
+              <button
+                onClick={logOut}
+                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-red-50 transition"
+              >
+                <LogOut className="w-5 h-5 text-red-500" /> Logout
+              </button>
+            </div>
+          )}
         </div>
-      </Modal>
+      </div>
     </header>
   );
 };
-
 export default Header;
