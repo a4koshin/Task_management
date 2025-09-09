@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import authRouter from "./routes/authRouter.js";
 import taskRouter from "./routes/taskRouter.js";
+import projectRouter from "./routes/projectRouter.js";
 dotenv.config();
 
 const app = express();
@@ -14,7 +15,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use("/api/auth", authRouter);
-app.use("/tasks", taskRouter);
+app.use("/api/tasks", taskRouter);
+app.use("/api/projects", projectRouter);
 
 connectDB().then(() => {
   app.listen(port, () => {
