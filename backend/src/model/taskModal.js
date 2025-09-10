@@ -29,12 +29,12 @@ const taskSchema = new mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "User",
       required: true,
     },
     project: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Projects",
+      ref: "Project",
       required: true,
     },
     deadline: { type: Date },

@@ -49,6 +49,10 @@ export const createProject = async (req, res) => {
 // Get all projects
 export const getProjects = async (req, res) => {
   const userId = req.user.id;
+  if (!userId) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+
   try {
     const projects = await projectModel
       .find({ user: userId })
@@ -121,13 +125,11 @@ export const updateProject = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Project not found" });
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Project updated successfully",
-        project,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Project updated successfully",
+      project,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Internal server error" });
@@ -156,13 +158,11 @@ export const deleteProject = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Project not found" });
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Project deleted successfully",
-        project,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Project deleted successfully",
+      project,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Internal server error" });
