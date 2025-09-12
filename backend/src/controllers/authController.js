@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../model/userModel.js";
-
+import { sendEmail } from "../config/mailer.js";
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -32,6 +32,12 @@ export const register = async (req, res) => {
     });
 
     await user.save();
+
+    await sendEmail({
+      to: user.email,
+      subject: "Welcome to TaskEdge",
+      text: `<h1>Hello ${user.name},</h1>\n\nWelcome to TaskEdge! we're excited to have you on board. Start managing your tasks efficiently and boost your productivity with us.\n\n Best regards,\n TaskEdge Team`,
+    });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",

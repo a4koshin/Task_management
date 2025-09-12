@@ -39,6 +39,7 @@ const taskSchema = new mongoose.Schema(
     },
     deadline: { type: Date },
     completedAt: { type: Date },
+    notified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

@@ -6,8 +6,9 @@ import { connectDB } from "./config/db.js";
 import authRouter from "./routes/authRouter.js";
 import taskRouter from "./routes/taskRouter.js";
 import projectRouter from "./routes/projectRouter.js";
-dotenv.config();
+import "./config/mailer.js";
 
+dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
