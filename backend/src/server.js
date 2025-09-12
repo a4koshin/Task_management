@@ -7,6 +7,7 @@ import authRouter from "./routes/authRouter.js";
 import taskRouter from "./routes/taskRouter.js";
 import projectRouter from "./routes/projectRouter.js";
 import "./config/mailer.js";
+import "./jobs/reminderJob.js";
 
 dotenv.config();
 const app = express();

@@ -3,12 +3,16 @@ import taskModal from "../model/taskModal.js";
 import userModel from "../model/userModel.js";
 import { sendEmail } from "../config/mailer.js";
 
-cron.schedule("* * * *", async () => {
+cron.schedule("* * * * *", async () => {
   console.log(" ⏰ Checking deadlines...");
   // Get current date and time
   const now = new Date();
   const next24hrs = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+  console.log("Now:", now.toISOString());
+  console.log("Next24hrs:", next24hrs.toISOString());
+
   // Find tasks with deadlines within the next 24 hours and not yet notified
+
   try {
     const tasks = await taskModal
       .find({
@@ -16,7 +20,8 @@ cron.schedule("* * * *", async () => {
         status: { $ne: "completed" },
         notified: false,
       })
-      .populate("User", "name email");
+      .populate("user", "name email");
+    console.log(`Tasks found: ${tasks.length}`);
     // Send reminder emails
     for (const task of tasks) {
       const user = task.user;
@@ -32,6 +37,7 @@ cron.schedule("* * * *", async () => {
       // Mark task as notified
       task.notified = true;
       await task.save();
+      console.log(`Reminder sent for task: ${task.title} to ${user.email}`);
     }
   } catch (error) {
     console.error("Reminder job error:", error);
