@@ -7,8 +7,10 @@ cron.schedule("* * * * *", async () => {
   console.log(" ⏰ Checking deadlines...");
   // Get current date and time
   const now = new Date();
-  const next24hrs = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+  const nowLocal = new Date(now.getTime() + 3 * 60 * 60 * 1000); // UTC+3
+  const next24hrs = new Date(now.getTime() + 24 * 60 * 60 * 1000 + 60000); // 24 hours from now + 1 minute buffer
   console.log("Now:", now.toISOString());
+  console.log("NowLocal:", nowLocal.toISOString());
   console.log("Next24hrs:", next24hrs.toISOString());
 
   // Find tasks with deadlines within the next 24 hours and not yet notified

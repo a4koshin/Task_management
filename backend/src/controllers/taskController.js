@@ -6,7 +6,8 @@ export const createTask = async (req, res) => {
     return res.status(401).json({ success: false, message: "Unauthorized" });
   }
   try {
-    const { title, description, status, priority, project } = req.body;
+    const { title, description, status, priority, project, deadline } =
+      req.body;
     const validStatus = ["todo", "pending", "completed"];
     const validPriority = ["low", "medium", "high"];
 
@@ -21,7 +22,7 @@ export const createTask = async (req, res) => {
         .json({ success: false, message: "Project not found" });
     }
 
-    if (!title || !description || !status || !priority || !project)
+    if (!title || !description || !status || !priority || !project || !deadline)
       return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
@@ -39,6 +40,7 @@ export const createTask = async (req, res) => {
       status,
       priority,
       project,
+      deadline: new Date(deadline),
     });
 
     await newTask.save();
@@ -87,7 +89,8 @@ export const getTaskById = async (req, res) => {
 export const updateTask = async (req, res) => {
   const userId = req.user.id;
   try {
-    const { title, description, status, priority, project } = req.body;
+    const { title, description, status, priority, project, deadline } =
+      req.body;
     const validStatus = ["todo", "pending", "completed"];
     const validPriority = ["low", "medium", "high"];
     const isExistingProject = await ProjectModel.findOne({
@@ -101,7 +104,14 @@ export const updateTask = async (req, res) => {
         .json({ success: false, message: "Project not found" });
     }
 
-    if (!title || !description || !status || !priority || !project) {
+    if (
+      !title ||
+      !description ||
+      !status ||
+      !priority ||
+      !project ||
+      !deadline
+    ) {
       return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
@@ -113,7 +123,14 @@ export const updateTask = async (req, res) => {
     }
     const updatedTask = await taskModal.findOneAndUpdate(
       { _id: req.params.id, user: userId },
-      { title, description, status, priority, project },
+      {
+        title,
+        description,
+        status,
+        priority,
+        project,
+        deadline: new Date(deadline),
+      },
       { new: true }
     );
     if (!updatedTask)
